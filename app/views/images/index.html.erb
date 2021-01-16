@@ -2,54 +2,50 @@
 
 <h1> Actions </h1>
 
+<h4> Single image: <%= link_to 'Add a single Image', new_image_path, class: 'btn btn-primary text-light' %> </h4>
 
-<h4> Single Image: <%= link_to 'Add an Image', new_image_path %> </h4>
+<h4> Multiple images: <%= link_to 'Add multiple Images', bulk_images_new_path, class: 'btn btn-primary text-light' %> <%= link_to 'Destroy all images', bulk_images_destroy_path, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger text-light'  %> </h4>
 
-<h4> Multiple Images: <%= link_to 'Add multiple Images', '/bulk_images' %> </h4>
-
-
-<%#= link_to 'Destroy multiple Images', '/bulk_images' %>
-
-<h1>Images : <%= Image.count %> </h1>
+<h3>Images : <%= Image.count %> </h3>
 <%= form_with url: "/images", method: :get do |form| %>
   <div class="field">
-    <%= form.label :query, "Search for:" %>
-    <%= form.text_field :query, :value => request.params["query"] %>
-    <%= form.select :limit, [10, 25, 100, 250], :selected => request.params['limit'] || 250 %>
+    <div class="input-group col-6">
+      <input id="query" name="query" type="text" class="form-control py-2" placeholder="What are you looking for?">
+      <span class="input-group-append mr-3">
+        <button class="btn btn-outline-secondary" type="submit"> search</button>
+      </span>
+      <%= form.select :limit, [10, 25, 100, 250], :selected => request.params['limit'] || 10, class: "input-small ml-3" %>
+    </div>
   </div>
-
-  <%= form.submit "Search" %>
 <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Asset</th>
-      <th>Title</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<div class="row image-grid">
+<% @images.each do |image| %>
+    <div class="col-sm-3 mb-2">
+      <div class="panel panel-default">
+        <div class="card">
+          <%= image_tag(image.asset, class: "img-responsive center-block rounded card-img-top", width: '250px', height: '250px') %>
+          <div class="card-body">
+            <p><%= image.title %></p>
+            <%= link_to 'Show', image, class: 'btn btn-primary text-light' %>
+            <%= link_to 'Edit', edit_image_path(image), class: 'btn btn-secondary text-light' %>
+            <%= link_to 'Destroy', image, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger text-light' %>
+          </div>
+        </div>
+      </div>
+    </div>
+<% end %>
+</div>
 
-  <tbody>
-    <% @images.each do |image| %>
-      <tr>
-        <td>
-          <% if image.asset.persisted? %>
-            <%= image_tag(image.asset, width: '50px') %>
-          <% end %>
-        </td>
-        <td><%= image.title %></td>
-        <td><%= link_to 'Show', image %></td>
-        <td><%= link_to 'Edit', edit_image_path(image) %></td>
-        <td><%= link_to 'Destroy', image, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
+<nav aria-label="Page navigation example">
+  <ul class="pagination">
+    <% (@count/(request.params['limit'] || 10).to_f).ceil.times do |i| %>
+      <li class="page-item"><%= link_to i + 1, request.params.merge(:page => i), class: 'page-link' %></li>
     <% end %>
-  </tbody>
-</table>
+  </ul>
+</nav>
 
 <div>
-  <% (@count/(request.params['limit'] || 250).to_f).ceil.times do |i| %>
-    <%= link_to i+1, request.params.merge(:page => i) %>
-  <% end %>
+
 </div>
 
