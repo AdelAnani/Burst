@@ -1,0 +1,10 @@
+<%= form_with method: :post do |form| %>
+    <div class="field">
+        <%= form.label :assets %>
+        <%= form.file_field :assets, multiple: true, direct_upload: true %>
+    </div>
+
+    <div class="actions">
+        <%= form.submit %>
+    </div>
+<% end %>

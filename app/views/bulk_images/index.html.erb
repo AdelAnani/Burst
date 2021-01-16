@@ -1,0 +1,29 @@
+<h1>Multiple Images Upload</h1>
+<p>Wa</p>
+<p><%= @message %></p>
+
+<% if @errors %>
+  <div id="error_explanation">
+    <h2><%= pluralize(image.errors.count, "error") %> prohibited this image from being saved:</h2>
+
+    <ul>
+      <% image.errors.each do |error| %>
+        <li><%= error.full_message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<%= render 'form'%>
+
+<%#= form_with method: :post do |form| %>
+
+<!--  <div class="field">-->
+    <%#= form.label :asset %>
+    <%#= form.file_field :asset, multiple: true, direct_upload: true %>
+<!--  </div>-->
+
+<!--  <div class="actions">-->
+    <%#= form.submit %>
+<!--  </div>-->
+<%# end %>
