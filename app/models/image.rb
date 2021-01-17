@@ -8,4 +8,14 @@ class Image < ApplicationRecord
             Image.where("title LIKE :query", query: "%#{query}%")
         end
     end
+
+    private
+
+    def validate_asset
+        if asset.attached? && !asset.image?
+            document.purge # delete the uploaded file
+            errors.add(:document, 'Must be a PDF or a DOC file')
+        end
+    end
+
 end

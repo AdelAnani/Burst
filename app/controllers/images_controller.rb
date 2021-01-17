@@ -67,7 +67,7 @@ class ImagesController < ApplicationController
   private
 
   def paginate(images)
-    images.limit(limit).offset(offset)
+    images.limit(limit).offset(offset) || []
   end
 
     # Use callbacks to share common setup or constraints between actions.
@@ -85,7 +85,8 @@ class ImagesController < ApplicationController
   end
 
   def offset
-    params['page']
+    return 0 unless params['page']
+    params['page'] * limit
   end
 
   def limit

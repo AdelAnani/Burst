@@ -57,3 +57,6 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # AWS S3
 gem "aws-sdk-s3"
+
+# rexml
+gem "rexml"
