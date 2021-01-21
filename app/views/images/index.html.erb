@@ -12,9 +12,9 @@
     <div class="input-group col-6">
       <input id="query" name="query" type="text" class="form-control py-2" placeholder="What are you looking for?">
       <span class="input-group-append mr-3">
-        <button class="btn btn-outline-secondary" type="submit"> search</button>
+        <%= form.submit "Search", class: "btn btn-outline-secondary"%>
       </span>
-      <%= form.select :limit, [10, 25, 100, 250], :selected => request.params['limit'] || 10, class: "input-small ml-3" %>
+      <%= form.select :limit, [10, 25, 100, 250], :selected => request.params['limit'] || 100, class: "input-small ml-3" %>
     </div>
   </div>
 <% end %>
@@ -39,7 +39,7 @@
 
 <nav aria-label="Page navigation example">
   <ul class="pagination">
-    <% (@count/(request.params['limit'] || 10).to_f).ceil.times do |i| %>
+    <% (@count/(request.params['limit'] || 100).to_f).ceil.times do |i| %>
       <li class="page-item"><%= link_to i + 1, request.params.merge(:page => i), class: 'page-link' %></li>
     <% end %>
   </ul>

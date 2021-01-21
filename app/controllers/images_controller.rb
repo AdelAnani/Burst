@@ -1,7 +1,7 @@
 class ImagesController < ApplicationController
   before_action :set_image, only: [:show, :edit, :update, :destroy]
 
-  MAX_IMAGE_PER_PAGE_LIMIT = 250
+  MAX_IMAGE_PER_PAGE_LIMIT = 100
   # GET /images
   # GET /images.json
   def index
@@ -86,7 +86,7 @@ class ImagesController < ApplicationController
 
   def offset
     return 0 unless params['page']
-    params['page'] * limit
+    params['page'].to_i * limit
   end
 
   def limit
